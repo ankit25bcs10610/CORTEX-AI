@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.theme-aurora {
+  --bg: #070a11;
+  --accent: #22d3ee;
+  --accent-hex: #22d3ee;
+  --accent-soft: rgba(34, 211, 238, 0.45);
+  --accent-bg: rgba(34, 211, 238, 0.16);
+  --accent-text: #b5f6ff;
+  --panel: #0f1422;
+  --panel-border: rgba(51, 65, 85, 0.7);
+  --bg-glow-a: rgba(34, 211, 238, 0.14);
+  --bg-glow-b: rgba(59, 130, 246, 0.12);
+}
+
+.theme-graphite {
+  --bg: #0b0b0f;
+  --accent: #94a3b8;
+  --accent-hex: #94a3b8;
+  --accent-soft: rgba(148, 163, 184, 0.45);
+  --accent-bg: rgba(148, 163, 184, 0.14);
+  --accent-text: #e2e8f0;
+  --panel: #141821;
+  --panel-border: rgba(71, 85, 105, 0.65);
+  --bg-glow-a: rgba(148, 163, 184, 0.1);
+  --bg-glow-b: rgba(71, 85, 105, 0.1);
+}
+
+.theme-sunset {
+  --bg: #130a0b;
+  --accent: #fb923c;
+  --accent-hex: #fb923c;
+  --accent-soft: rgba(251, 146, 60, 0.45);
+  --accent-bg: rgba(251, 146, 60, 0.16);
+  --accent-text: #fed7aa;
+  --panel: #1f1214;
+  --panel-border: rgba(113, 63, 18, 0.7);
+  --bg-glow-a: rgba(251, 146, 60, 0.13);
+  --bg-glow-b: rgba(244, 63, 94, 0.09);
+}
+
+.theme-neon {
+  --bg: #06090f;
+  --accent: #38bdf8;
+  --accent-hex: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.45);
+  --accent-bg: rgba(56, 189, 248, 0.16);
+  --accent-text: #bae6fd;
+  --panel: #0b1325;
+  --panel-border: rgba(30, 64, 175, 0.65);
+  --bg-glow-a: rgba(56, 189, 248, 0.12);
+  --bg-glow-b: rgba(147, 51, 234, 0.1);
+}
+
+.theme-forest {
+  --bg: #07110d;
+  --accent: #34d399;
+  --accent-hex: #34d399;
+  --accent-soft: rgba(52, 211, 153, 0.45);
+  --accent-bg: rgba(52, 211, 153, 0.16);
+  --accent-text: #bbf7d0;
+  --panel: #0f1b16;
+  --panel-border: rgba(22, 101, 52, 0.65);
+  --bg-glow-a: rgba(16, 185, 129, 0.12);
+  --bg-glow-b: rgba(52, 211, 153, 0.08);
+}
+
+.theme-rose {
+  --bg: #13090f;
+  --accent: #fb7185;
+  --accent-hex: #fb7185;
+  --accent-soft: rgba(251, 113, 133, 0.45);
+  --accent-bg: rgba(251, 113, 133, 0.16);
+  --accent-text: #fecdd3;
+  --panel: #201019;
+  --panel-border: rgba(157, 23, 77, 0.65);
+  --bg-glow-a: rgba(244, 63, 94, 0.12);
+  --bg-glow-b: rgba(251, 113, 133, 0.08);
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  color: #e2e8f0;
+}
+
+.app-bg {
+  background:
+    radial-gradient(circle at 8% 6%, var(--bg-glow-a) 0%, transparent 35%),
+    radial-gradient(circle at 92% 4%, var(--bg-glow-b) 0%, transparent 35%),
+    var(--bg);
+}
+
+.card {
+  border-color: var(--panel-border);
+  background: color-mix(in srgb, var(--panel) 78%, transparent);
+  @apply rounded-2xl;
+}
+
+.badge {
+  @apply text-xs rounded-full px-2 py-1 border bg-slate-900/60;
+  border-color: var(--panel-border);
+}
+
+.panel-input {
+  background: rgba(2, 6, 23, 0.35);
+  border: 1px solid var(--panel-border);
+  color: #e2e8f0;
+}
+
+.auth-orb {
+  position: absolute;
+  right: 30px;
+  top: 40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.5) 0%, rgba(34, 211, 238, 0) 70%);
+  filter: blur(4px);
+  animation: float 6s ease-in-out infinite;
+}
+
+.auth-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: rgba(15, 23, 42, 0.35);
+  color: #e2e8f0;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes badgePop {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 rgba(16, 185, 129, 0);
+  }
+  40% {
+    transform: scale(1.02);
+    box-shadow: 0 0 22px rgba(16, 185, 129, 0.35);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.achievement-pop {
+  animation: badgePop 700ms ease-out;
+}
