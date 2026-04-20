@@ -33,7 +33,7 @@ export function Sidebar() {
   const { user, signOut } = useAuth();
 
   return (
-    <aside className="w-full md:w-72 md:min-h-screen bg-[#0a0d14]/90 border-r border-slate-800/80 p-4 md:p-5 flex md:flex-col gap-4 md:gap-8 backdrop-blur-xl">
+    <aside className="w-full md:w-72 md:sticky md:top-0 md:h-screen bg-[#0a0d14]/90 border-r border-slate-800/80 p-4 md:p-5 flex md:flex-col gap-4 md:gap-8 backdrop-blur-xl z-30">
       <div className="hidden md:block">
         <div className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 px-3 py-2 border border-cyan-400/30">
           <span className="h-2.5 w-2.5 rounded-full bg-cyan-300" />
@@ -41,7 +41,7 @@ export function Sidebar() {
         </div>
       </div>
 
-      <nav className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
+      <nav className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:pr-2 custom-scrollbar">
         {links.map((item) => {
           const Icon = item.icon;
           const active = location.pathname === item.to;

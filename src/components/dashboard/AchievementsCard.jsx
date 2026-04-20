@@ -1,24 +1,36 @@
-import { Medal } from "lucide-react";
+import { Medal, Trophy, Award } from "lucide-react";
 import { useLifeStore } from "../../app/store";
 import { CardShell } from "./CardShell";
 
 export function AchievementsCard() {
   const achievements = useLifeStore((s) => s.gamification?.achievements || []);
   const unlocked = achievements.filter((a) => a.unlocked).length;
-  const now = Date.now();
 
   return (
-    <CardShell title="Achievements" action={<span className="text-xs text-slate-300">{unlocked}/{achievements.length} unlocked</span>}>
-      <div className="grid grid-cols-1 gap-2">
-        {achievements.map((a) => {
-          const justUnlocked = a.unlockedAt && now - new Date(a.unlockedAt).getTime() < 120000;
-          return (
-            <div key={a.id} className={`rounded-xl border p-2 ${a.unlocked ? "border-emerald-400/40 bg-emerald-400/10" : "border-[var(--panel-border)] bg-black/20"} ${justUnlocked ? "achievement-pop" : ""}`}>
-              <p className="text-sm text-slate-100 inline-flex items-center gap-2"><Medal size={14} className={a.unlocked ? "text-emerald-300" : "text-slate-500"} /> {a.title}</p>
-              <p className="text-xs text-slate-400">{a.description}</p>
+    <CardShell 
+       title="Legacy Medallions" 
+       action={<div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest"><Award size={12} /> {unlocked}/{achievements.length} FEATS UNLOCKED</div>}
+    >
+      <div className="grid grid-cols-2 gap-3">
+        {achievements.map((a) => (
+          <div key={a.id} className={`p-4 rounded-[1.8rem] border transition-all duration-500 flex flex-col items-center justify-center text-center gap-3 group/medallion ${
+            a.unlocked 
+              ? "bg-emerald-500/10 border-emerald-500/30 shadow-[0_10px_30px_-10px_rgba(16,185,129,0.2)]" 
+              : "bg-slate-950/40 border-slate-900 opacity-60"
+          }`}>
+            <div className={`p-3 rounded-2xl transition-all duration-700 ${
+              a.unlocked 
+                ? "bg-emerald-500 text-white shadow-[0_0_20px_-5px_rgba(16,185,129,0.6)] group-hover/medallion:scale-110" 
+                : "bg-slate-900 text-slate-700"
+            }`}>
+              <Medal size={24} />
             </div>
-          );
-        })}
+            <div>
+              <p className={`text-[10px] font-black uppercase tracking-tight mb-1 ${a.unlocked ? "text-white" : "text-slate-600"}`}>{a.title}</p>
+              <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest leading-tight">{a.description}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </CardShell>
   );

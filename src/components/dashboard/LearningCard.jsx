@@ -1,27 +1,41 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, BookOpen, Layers } from "lucide-react";
 import { CardShell } from "./CardShell";
 
 export function LearningCard({ learning }) {
   return (
-    <CardShell title="Learning Tracker" action={<span className="text-xs text-slate-400">3 active tracks</span>}>
-      <div className="space-y-3">
+    <CardShell 
+      title="Knowledge Architecture" 
+      action={<div className="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[10px] font-black text-slate-500 uppercase tracking-widest">{learning.length} Active Tracks</div>}
+    >
+      <div className="grid gap-4">
         {learning.map((item) => (
-          <div key={item.id} className="rounded-xl border border-slate-800 p-3 bg-slate-900/40">
-            <div className="flex items-start justify-between gap-2">
+          <div key={item.id} className="p-5 rounded-[1.8rem] border border-slate-800/80 bg-slate-950/40 relative group overflow-hidden transition-all hover:border-cyan-500/30">
+            <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500/20 group-hover:bg-cyan-500/60 transition-all" />
+            
+            <div className="flex items-start justify-between gap-4 relative z-10">
               <div>
-                <p className="text-sm text-slate-100">{item.topic}</p>
-                <p className="text-xs text-slate-500">{item.type} • Next: {item.next}</p>
+                <h4 className="text-sm font-bold text-slate-100 mb-1">{item.topic}</h4>
+                <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                   <span className="text-cyan-400">{item.type}</span>
+                   <span className="text-slate-800">•</span>
+                   <span>Next: {item.next}</span>
+                </div>
               </div>
-              <span className="text-xs text-cyan-200">{item.progress}%</span>
+              <p className="text-xs font-black text-cyan-200 uppercase tracking-tighter">{item.progress}%</p>
             </div>
-            <div className="h-1.5 bg-slate-800 rounded-full mt-2 overflow-hidden">
-              <div className="h-full bg-cyan-400" style={{ width: `${item.progress}%` }} />
+            
+            <div className="mt-4 h-1.5 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800/50">
+              <div 
+                className="h-full bg-gradient-to-r from-cyan-600 to-blue-500 rounded-full transition-all duration-1000" 
+                style={{ width: `${item.progress}%` }} 
+              />
             </div>
           </div>
         ))}
       </div>
-      <button className="mt-3 w-full rounded-xl border border-cyan-400/40 bg-cyan-400/10 hover:bg-cyan-400/20 text-cyan-100 py-2 text-sm transition inline-flex items-center justify-center gap-2">
-        Continue Learning <ArrowUpRight size={14} />
+      
+      <button className="mt-6 w-full rounded-[1.5rem] bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black py-4 transition-all active:scale-[0.98] flex items-center justify-center gap-3 shadow-xl">
+        SYNCHRONIZE VAULT <Layers size={18} />
       </button>
     </CardShell>
   );
