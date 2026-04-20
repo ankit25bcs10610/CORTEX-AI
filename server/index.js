@@ -149,6 +149,11 @@ app.post("/api/agent", async (req, res) => {
 });
 
 const port = Number(process.env.PORT || 8787);
+
+app.get("/", (req, res) => {
+  res.send("Cortex-AI API Online");
+});
+
 app.listen(port, () => {
   console.log(`Cortex-AI API running on http://localhost:${port}`);
 });
