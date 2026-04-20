@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Mic, Square, Volume2, Sparkles, Bot } from "lucide-react";
+import { Mic, Square, Volume2, Sparkles, Bot, AlertCircle } from "lucide-react";
 import { useLifeStore } from "../../app/store";
 import { SectionCard } from "../../components/SectionCard";
 import { PageIntro } from "../../components/dashboard/PageIntro";
@@ -52,8 +52,11 @@ export function CoachPage() {
     rec.start();
   };
 
+  const [error, setError] = useState(null);
+
   const runCoach = async () => {
     setLoading(true);
+    setError(null);
     try {
       const data = await getCoachInsights({
         tasks: state.tasks,
@@ -63,7 +66,11 @@ export function CoachPage() {
         memory: getRelevantMemories("daily plan productivity habits goals", 6),
         history: { weekCompletedTasks: state.tasks.filter((t) => t.status === "Completed").length }
       });
+      if (data.error) throw new Error(data.error);
       setResult(data);
+    } catch (err) {
+      setError(err.message || "Failed to connect to Neural Engine.");
+      console.error("Coach Error:", err);
     } finally {
       setLoading(false);
     }
@@ -75,6 +82,7 @@ export function CoachPage() {
     if (!forcedText) setInput("");
     setChat((prev) => [...prev, { role: "user", text }]);
     setChatLoading(true);
+    setError(null);
     try {
       const data = await askLifeAgent({
         message: text,
@@ -86,9 +94,13 @@ export function CoachPage() {
           memory: getRelevantMemories(text, 6)
         }
       });
+      if (data.error) throw new Error(data.error);
       const reply = data.reply || "No response.";
       setChat((prev) => [...prev, { role: "assistant", text: reply }]);
       speak(reply);
+    } catch (err) {
+      setError(err.message || "Agent connection lost.");
+      setChat((prev) => [...prev, { role: "assistant", text: "CONNECTION ERROR: Failed to synchronize with Neural Engine. Please verify server connectivity." }]);
     } finally {
       setChatLoading(false);
     }
@@ -130,7 +142,27 @@ export function CoachPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Main Intelligence Output */}
         <div className="lg:col-span-8 space-y-6">
-          {!result && !loading && (
+          {error && (
+            <div className="p-6 rounded-[2.2rem] bg-rose-500/10 border border-rose-500/30 shadow-[0_10px_40px_-20px_rgba(239,68,68,0.3)] animate-in fade-in slide-in-from-top-4 duration-500">
+               <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 rounded-2xl bg-rose-500/20 text-rose-500">
+                     <AlertCircle size={24} />
+                  </div>
+                  <div>
+                     <h3 className="text-sm font-black uppercase tracking-widest text-rose-200">Neural Link Failure</h3>
+                     <p className="text-[10px] font-black text-rose-500/60 uppercase tracking-widest shadow-sm">Sync Code: 500_CONN_ERROR</p>
+                  </div>
+               </div>
+               <p className="text-sm text-rose-200/80 leading-relaxed mb-4">
+                  The system failed to synchronize with the AI core. This usually happens when the backend server is unreachable or environment variables are not configured on the deployment platform.
+               </p>
+               <div className="p-4 rounded-xl bg-black/40 border border-rose-500/10 font-mono text-[10px] text-rose-400 overflow-x-auto whitespace-pre-wrap">
+                  DIAGNOSTIC: {error}
+               </div>
+            </div>
+          )}
+
+          {!result && !loading && !error && (
             <div className="flex flex-col items-center justify-center py-20 rounded-[2.2rem] border-2 border-dashed border-slate-800 bg-slate-900/10">
               <Sparkles size={48} className="text-slate-700 mb-4" />
               <p className="text-slate-500 font-bold uppercase tracking-widest">Awaiting Neural Activation</p>
